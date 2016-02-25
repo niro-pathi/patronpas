@@ -36,7 +36,7 @@ var PatronPAS = require('./models/patronpas.js');
 exports.getAllPatrons = {
 	'spec': {
 		description : "List all Patrons",
-		path : "/patrons/list",
+		path : "/patronpas/list",
 		method: "GET",
 		summary : "List all patrons",
 		notes : "Returns a list of all patrons",
@@ -56,5 +56,46 @@ exports.getAllPatrons = {
 				res.send(404, swe.notFound('patronpas'));
 			};
 		});
+	}
+};
+
+/**
+* Add/create methods
+*/
+
+//console.log(PatronPAS.def);
+
+exports.addPatronPAS = {
+	'spec': {
+        path : "/patronpas",
+        notes : "Adds a new pas status",
+		summary : "Add a new pas status",
+		method: "POST",
+        parameters : [{
+			name: "PatronPAS",
+			description: "JSON object representing the patron pas to add",
+			required: true,
+			type: "PatronPAS",
+			paramType: "body"
+		}],
+        responseMessages : [swe.invalid('input')],
+		nickname : "addPatronPAS"
+	},
+	'action': function(req, res, next) {
+		var body = req.body;
+		if(!body || !body.patronid){
+			throw swe.invalid('Patron ID');
+	    } else {
+			// Create the new document (database will be updated automatically)
+			PatronPAS.model.create({ patronid: body.patronid }, function (err,patronid) {
+				if (err) return res.send(500, { error: err });
+
+				if (patronid) {
+					res.send(patronid);
+				} else {
+					res.send(500, { error: 'PAS not added' });
+				};
+			});
+		}
 	}
 };

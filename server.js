@@ -17,8 +17,6 @@
 *
 * @beta
 */
-
-
 var express = require("express"),
 	url = require("url"),
 	fs = require('fs'),
@@ -83,6 +81,8 @@ swagger.addModels(models);
 // Add methods to swagger
 swagger
 	.addGet(api.getAllPatrons)
+
+    .addPost(api.addPatronPAS)
 
 // set api info
 swagger.setApiInfo({

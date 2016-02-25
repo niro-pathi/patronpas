@@ -15,7 +15,8 @@ var patronpasSchema = new mongoose.Schema({
 exports.def =
 	{
 		"PatronPAS":{
-			"patronid":"Patron ID",
+			"id":"PatronPAS",
+            "required": ["patronid", "status","collectionmethod"],
 			"properties":{
 				"patronid":{
 					"type":"string",
